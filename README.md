@@ -12,6 +12,9 @@ Tampermonkey userscripts for local study tools.
   - Runs only on local `127.*` and `192.*` IPv4 addresses under `/study/`.
   - Adds Sukebei search links on work list and detail pages.
   - Install: <https://raw.githubusercontent.com/EastSunrise/kingen-userscripts/master/sukebei/sukebei.js>
+- [DPlayer Enhancer](dplayer/dplayer.js)
+  - Adds five-second rewind and forward buttons to DPlayer controls.
+  - Install: <https://raw.githubusercontent.com/EastSunrise/kingen-userscripts/master/dplayer/dplayer.js>
 
 ## PotPlayer protocol bridge
 
