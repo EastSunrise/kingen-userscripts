@@ -22,13 +22,17 @@
 py -3 potplayer\\potplayer_protocol.py register
 ```
 
-注册命令会优先使用同一 Python 目录下的 `pythonw.exe`，浏览器点击协议时不会闪出 Python 控制台。处理结果和异常写入：
+注册时会将桥接程序安装到当前用户的本地应用目录：
+
+```text
+%LOCALAPPDATA%\\Kingen\\PotPlayer\\potplayer_protocol.py
+```
+
+注册表会指向该副本，因此仓库移动或删除后，浏览器中的 `potplayer://` 链接仍可用。注册命令会优先使用同一 Python 目录下的 `pythonw.exe`，浏览器点击协议时不会闪出 Python 控制台。修改桥接程序后，重新执行一次 `register` 即可更新本地副本。处理结果和异常写入：
 
 ```text
 %TEMP%\\kingen-potplayer\\protocol.log
 ```
-
-修改脚本或 Python 桥接程序后，需要重新执行一次 `register` 更新当前用户注册表。
 
 如果 PotPlayer 不在默认目录：
 

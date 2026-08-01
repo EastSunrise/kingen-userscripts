@@ -6,6 +6,8 @@ from __future__ import annotations
 import argparse
 import base64
 import json
+import os
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -22,6 +24,8 @@ REGISTRY_PATH = rf"Software\Classes\{PROTOCOL}"
 ALLOWED_MEDIA_SCHEMES = {"file", "http", "https", "rtmp", "rtsp"}
 TEMP_PLAYLIST_DIR = Path(tempfile.gettempdir()) / "kingen-potplayer"
 LOG_PATH = TEMP_PLAYLIST_DIR / "protocol.log"
+INSTALL_DIR = Path(os.environ["LOCALAPPDATA"]) / "Kingen" / "PotPlayer"
+INSTALLED_BRIDGE_PATH = INSTALL_DIR / "potplayer_protocol.py"
 _log_stream = None
 
 
@@ -52,29 +56,39 @@ def locate_potplayer(explicit_path: str | None) -> Path:
     raise FileNotFoundError(f"PotPlayer executable was not found. Checked:\n{joined}")
 
 
-def command_prefix(potplayer_path: Path) -> list[str]:
+def install_bridge_script() -> Path:
+    source_path = Path(__file__).resolve()
+    if source_path == INSTALLED_BRIDGE_PATH:
+        return source_path
+
+    INSTALL_DIR.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(source_path, INSTALLED_BRIDGE_PATH)
+    return INSTALLED_BRIDGE_PATH
+
+
+def command_prefix(potplayer_path: Path, bridge_path: Path) -> list[str]:
     if getattr(sys, "frozen", False):
         return [str(Path(sys.executable).resolve()), "playlist", "--potplayer", str(potplayer_path)]
-    script_path = Path(__file__).resolve()
     python_path = Path(sys.executable).resolve()
     pythonw_path = python_path.with_name("pythonw.exe")
     interpreter = pythonw_path if pythonw_path.is_file() else python_path
     return [
         str(interpreter),
-        str(script_path),
+        str(bridge_path),
         "playlist",
         "--potplayer",
         str(potplayer_path),
     ]
 
 
-def build_registry_command(potplayer_path: Path) -> str:
+def build_registry_command(potplayer_path: Path, bridge_path: Path) -> str:
     # Keep %1 quoted so URLs containing &, spaces, or query strings remain one argument.
-    return f'{subprocess.list2cmdline(command_prefix(potplayer_path))} "%1"'
+    return f'{subprocess.list2cmdline(command_prefix(potplayer_path, bridge_path))} "%1"'
 
 
 def register_protocol(potplayer_path: Path) -> None:
-    command = build_registry_command(potplayer_path)
+    bridge_path = install_bridge_script()
+    command = build_registry_command(potplayer_path, bridge_path)
     with winreg.CreateKeyEx(winreg.HKEY_CURRENT_USER, REGISTRY_PATH) as protocol_key:
         winreg.SetValueEx(protocol_key, None, 0, winreg.REG_SZ, "URL:PotPlayer Protocol")
         winreg.SetValueEx(protocol_key, "URL Protocol", 0, winreg.REG_SZ, "")
@@ -83,9 +97,13 @@ def register_protocol(potplayer_path: Path) -> None:
     with winreg.CreateKeyEx(winreg.HKEY_CURRENT_USER, command_path) as command_key:
         winreg.SetValueEx(command_key, None, 0, winreg.REG_SZ, command)
 
+    print(f"Installed protocol bridge: {bridge_path}")
     print(f"Registered {PROTOCOL}:// for {potplayer_path}")
     print(f"Command: {command}")
-    log_event(f"Registered {PROTOCOL}:// for {potplayer_path}; command={command}")
+    log_event(
+        f"Installed protocol bridge: {bridge_path}; registered {PROTOCOL}:// for "
+        f"{potplayer_path}; command={command}"
+    )
 
 
 def delete_registry_tree(root, path: str) -> None:
