@@ -1,12 +1,9 @@
 // ==UserScript==
 // @name         PotPlayer WebVideo Bridge
 // @namespace    https://github.com/EastSunrise/kingen-userscripts
-// @version      1.3.1
+// @version      1.3.2
 // @description  为每个 Video.js 或 HTML5 视频实例提供 PotPlayer 单视频/播放列表入口
-// @include      http://127.*/*
-// @include      https://127.*/*
-// @include      http://192.*/*
-// @include      https://192.*/*
+// @include      /^https?:\/\/(?:127|192)(?:\.\d{1,3}){3}(?::\d+)?\/.*$/
 // @updateURL    https://raw.githubusercontent.com/EastSunrise/kingen-userscripts/master/potplayer/potplayer.js
 // @downloadURL  https://raw.githubusercontent.com/EastSunrise/kingen-userscripts/master/potplayer/potplayer.js
 // @grant        none

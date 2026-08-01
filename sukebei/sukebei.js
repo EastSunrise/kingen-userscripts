@@ -1,12 +1,9 @@
 // ==UserScript==
 // @name         Sukebei Helper
 // @namespace    https://github.com/EastSunrise/kingen-userscripts
-// @version      1.0.1
+// @version      1.0.2
 // @description  Add Sukebei search links to local study work pages
-// @include      http://127.*/*
-// @include      https://127.*/*
-// @include      http://192.*/*
-// @include      https://192.*/*
+// @include      /^https?:\/\/(?:127|192)(?:\.\d{1,3}){3}(?::\d+)?\/.*$/
 // @updateURL    https://raw.githubusercontent.com/EastSunrise/kingen-userscripts/master/sukebei/sukebei.js
 // @downloadURL  https://raw.githubusercontent.com/EastSunrise/kingen-userscripts/master/sukebei/sukebei.js
 // @grant        none
