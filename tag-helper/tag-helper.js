@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Tag Helper
 // @namespace    https://github.com/EastSunrise/kingen-userscripts
-// @version      1.0.1
+// @version      1.0.2
 // @description  Link work tags on supported media websites
 // @author       Kingen
 // @match        https://www.youtube.com/watch*
@@ -13,7 +13,7 @@
 (function () {
     'use strict';
 
-    const WORK_DETAIL_BASE = 'https://kingen.my/study/work/detail/';
+    const WORK_RESOLVE_URL = 'https://kingen.my/study/work/resolve';
     const CHANNEL_COOKIE = 'TARGET_CHANNELS';
     const COOKIE_MAX_AGE_SECONDS = 365 * 24 * 60 * 60;
     const WORK_TAG_LINK_CLASS = 'kingen-tag-helper-work-link';
@@ -209,8 +209,10 @@
     function createWorkLink(match) {
         const serialNumber = getSerialNumber(match);
         const link = document.createElement('a');
+        const resolveUrl = new URL(WORK_RESOLVE_URL);
+        resolveUrl.searchParams.set('query', serialNumber);
         link.className = WORK_TAG_LINK_CLASS;
-        link.href = `${WORK_DETAIL_BASE}${encodeURIComponent(serialNumber)}`;
+        link.href = resolveUrl.href;
         link.target = '_blank';
         link.rel = 'noopener noreferrer';
         link.title = `打开作品：${serialNumber}`;

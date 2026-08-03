@@ -16,7 +16,7 @@ Tampermonkey userscripts for local study tools.
   - Adds five-second rewind and forward buttons to DPlayer controls.
   - Install: <https://raw.githubusercontent.com/EastSunrise/kingen-userscripts/master/dplayer/dplayer.js>
 - [Tag Helper](tag-helper/tag-helper.js)
-  - Links recognized work tags in YouTube descriptions and comments to the local work detail page.
+  - Links recognized work tags in YouTube descriptions and comments to the local work resolver.
   - Saves marked channels in the `TARGET_CHANNELS` cookie and rescans dynamic content.
   - Install: <https://raw.githubusercontent.com/EastSunrise/kingen-userscripts/master/tag-helper/tag-helper.js>
 
