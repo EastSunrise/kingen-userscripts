@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         Sukebei Helper
 // @namespace    https://github.com/EastSunrise/kingen-userscripts
-// @version      1.0.2
+// @version      1.0.3
 // @description  Add Sukebei search links to local study work pages
-// @include      /^https?:\/\/(?:127|192)(?:\.\d{1,3}){3}(?::\d+)?\/.*$/
+// @include      /^https?:\/\/kingen\.my(?::\d+)?\/.*$/
 // @updateURL    https://raw.githubusercontent.com/EastSunrise/kingen-userscripts/master/sukebei/sukebei.js
 // @downloadURL  https://raw.githubusercontent.com/EastSunrise/kingen-userscripts/master/sukebei/sukebei.js
 // @grant        none
@@ -18,11 +18,8 @@
     let scanTimer = 0;
 
     function isSupportedHost() {
-        const parts = window.location.hostname.split('.');
-        if (parts.length !== 4 || (parts[0] !== '127' && parts[0] !== '192')) {
-            return false;
-        }
-        return parts.every((part) => /^\d+$/.test(part) && Number(part) >= 0 && Number(part) <= 255);
+        return (window.location.protocol === 'http:' || window.location.protocol === 'https:') &&
+            window.location.hostname === 'kingen.my';
     }
 
     function isStudyPage() {
