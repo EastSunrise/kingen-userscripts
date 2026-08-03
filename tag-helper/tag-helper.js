@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         Tag Helper
 // @namespace    https://github.com/EastSunrise/kingen-userscripts
-// @version      1.0.0
+// @version      1.0.1
 // @description  Link work tags on supported media websites
 // @author       Kingen
-// @match        https://www.youtube.com/watch?v=*
+// @match        https://www.youtube.com/watch*
 // @updateURL    https://raw.githubusercontent.com/EastSunrise/kingen-userscripts/master/tag-helper/tag-helper.js
 // @downloadURL  https://raw.githubusercontent.com/EastSunrise/kingen-userscripts/master/tag-helper/tag-helper.js
 // @grant        none
